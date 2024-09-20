@@ -8,7 +8,7 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
 {
     public async Task<IReadOnlyCollection<Product>> GetProductsAsync()
     {
-        return await context.Products.ToListAsync();
+        return await context.Products.Include(x => x.Ratings).ToListAsync();
     }
 
     public async Task<Product?> GetProductByIdAsync(int id)
