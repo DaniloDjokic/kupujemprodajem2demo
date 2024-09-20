@@ -1,4 +1,5 @@
 using KupujemProdajemClone.DataLayer;
+using KupujemProdajemClone.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<KupujemProdajemCloneContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("KupujemProdajemCloneContext")));
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

@@ -2,5 +2,5 @@
 
 public class HomeViewModel
 {
-    public List<Product> Products { get; set; } = new();
+    public IReadOnlyCollection<Product>? Products { get; set; }
 }

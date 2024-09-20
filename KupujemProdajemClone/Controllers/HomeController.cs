@@ -3,16 +3,17 @@ using KupujemProdajemClone.DataLayer;
 using Microsoft.AspNetCore.Mvc;
 using KupujemProdajemClone.Models;
 using KupujemProdajemClone.Models.ViewModels;
+using KupujemProdajemClone.Services;
 
 namespace KupujemProdajemClone.Controllers;
 
-public class HomeController(KupujemProdajemCloneContext context) : Controller
+public class HomeController(IProductService productService) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var viewModel = new HomeViewModel()
         {
-            Products = context.Products.ToList(),
+            Products = await productService.GetProductsAsync()
         };
         return View(viewModel);
     }
