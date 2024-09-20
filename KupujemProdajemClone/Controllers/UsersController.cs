@@ -1,21 +1,15 @@
-﻿using KupujemProdajemClone.Models.ViewModels;
+﻿using KupujemProdajemClone.DataLayer;
+using KupujemProdajemClone.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KupujemProdajemClone.Controllers;
 
-public class UsersController : Controller
+public class UsersController(KupujemProdajemCloneContext _context) : Controller
 {
     public IActionResult Index()
     {
-        var user = new User()
-        {
-            FirstName = "John",
-            LastName = "Doe",
-            Id = 1,
-            Email = "johndoe@gmail.com",
-            SellingProducts = []
-        };
-        var model = new UserViewModel(user);
+        var user = _context.Users.FirstOrDefault();
+        var model = new UserViewModel(user!);
         return View(model);
     }
 }
