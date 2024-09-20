@@ -1,8 +1,24 @@
-﻿@{
+﻿@model KupujemProdajemClone.Models.ViewModels.HomeViewModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Kupujem Prodajem 2</h1>
+    <section id="mainSection">
+        <div>
+            @foreach (var product in Model.Products)
+            {
+                <div id="productCard">
+                    <img src="@product.ImageSrc" alt="">
+                    <h5>@product.Name</h5>
+                    <p>@product.Description</p>
+                    <div>
+                        <strong>RSD @product.Price</strong>
+                        <strong>@product.Rating / 5</strong>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
 </div>
