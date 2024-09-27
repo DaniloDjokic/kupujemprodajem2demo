@@ -14,7 +14,7 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
 
     public async Task<Product?> GetProductByIdAsync(int id)
     {
-        return await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+        return await context.Products.Include(x => x.Ratings).FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task CreateProductAsync(Product product)
@@ -50,9 +50,24 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
             throw new ProductNotFoundException($"Product {productId} not found");
 
         if (product.UserId != userId)
-            throw new InvalidDeleteException($"Product {productId} not found");
+            throw new InvalidDeleteException($"User {userId} not authorized to delete product");
 
         context.Products.Remove(product);
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task RateProductAsync(int productId, int userId, int rating)
+    {
+        var product = await GetProductByIdAsync(productId);
+
+        if (product == null)
+            throw new ProductNotFoundException($"Product {productId} not found");
+
+        if (product.Ratings.Any(x => x.UserId == userId))
+            throw new InvalidRatingException($"User {userId} rating already exists");
+
+        product.Ratings.Add(new Rating{UserId = userId, RatingValue = rating});
 
         await context.SaveChangesAsync();
     }
