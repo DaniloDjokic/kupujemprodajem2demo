@@ -149,26 +149,31 @@ public class DbInitializer
             {
                 RatingValue = 5,
                 ProductId = products[0].Id,
+                UserId = users[0].Id
             },
             new()
             {
                 RatingValue = 4,
                 ProductId = products[0].Id,
+                UserId = users[1].Id
             },
             new()
             {
                 RatingValue = 1,
                 ProductId = products[1].Id,
+                UserId = users[0].Id
             },
             new()
             {
                 RatingValue = 2,
                 ProductId = products[2].Id,
+                UserId = users[1].Id
             },
             new()
             {
                 RatingValue = 3,
                 ProductId = products[2].Id,
+                UserId = users[2].Id
             }
         };
 

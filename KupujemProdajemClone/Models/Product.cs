@@ -16,7 +16,6 @@ public class Product
 
     [Precision(10, 2)] public decimal Price { get; set; }
 
-
     [MaxLength(1000)] public string ImageSrc { get; set; } = string.Empty;
 
     public int UserId { get; set; }

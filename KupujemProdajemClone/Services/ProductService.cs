@@ -1,4 +1,5 @@
 ﻿using KupujemProdajemClone.DataLayer;
+using KupujemProdajemClone.Exceptions;
 using KupujemProdajemClone.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
 
     public async Task CreateProductAsync(Product product)
     {
+        //try save image
         await context.Products.AddAsync(product);
 
         await context.SaveChangesAsync();
@@ -28,7 +30,9 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
         var oldProduct = await GetProductByIdAsync(id);
 
         if (oldProduct == null)
-            throw new ArgumentException($"Product {id} not found");
+            throw new ProductNotFoundException($"Product {id} not found");
+
+        //try save image
 
         oldProduct.Name = product.Name;
         oldProduct.Price = product.Price;
@@ -38,12 +42,15 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteProductAsync(int id)
+    public async Task DeleteProductAsync(int productId, int userId)
     {
-        var product = await GetProductByIdAsync(id);
+        var product = await GetProductByIdAsync(productId);
 
         if (product == null)
-            throw new ArgumentException($"Product {id} not found");
+            throw new ProductNotFoundException($"Product {productId} not found");
+
+        if (product.UserId != userId)
+            throw new InvalidDeleteException($"Product {productId} not found");
 
         context.Products.Remove(product);
 

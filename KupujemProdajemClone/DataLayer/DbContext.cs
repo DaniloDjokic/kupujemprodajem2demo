@@ -17,6 +17,5 @@ public class KupujemProdajemCloneContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
     }
 }
