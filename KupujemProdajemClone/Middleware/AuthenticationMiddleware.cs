@@ -15,6 +15,7 @@ public class AuthenticationMiddleware(RequestDelegate next)
         if (httpContext.User.Identity is { IsAuthenticated: false })
         {
             httpContext.Response.Redirect($"/Users/LogIn?returnUrl=/");
+            return;
         }
 
         await next(httpContext);

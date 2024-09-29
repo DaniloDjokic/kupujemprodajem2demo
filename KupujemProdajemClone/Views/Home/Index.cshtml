@@ -1,4 +1,5 @@
-﻿@model KupujemProdajemClone.Models.ViewModels.HomeViewModel;
+﻿@using KupujemProdajemClone.Models.ViewModels
+@model KupujemProdajemClone.Models.ViewModels.HomeViewModel;
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -7,6 +8,22 @@
     <h1 class="display-4">Kupujem Prodajem 2</h1>
     <section id="mainSection">
         <div>
+            @{
+                var productIds = Model.UserProducts.Select(x => x.Id).ToList();
+                var ratingIds = Model.ProductRatings.Select(x => x.ProductId).ToList();
+            }
+            <h1>Your Ratings</h1>
+            @foreach (var rating in Model.ProductRatings)
+            {
+                var product = Model.Products?.FirstOrDefault(x => x.Id == rating.ProductId);
+                if (product != null)
+                {
+                    <h5>@product.Name</h5>
+                    <h6>You rated: @rating.RatingValue</h6>
+                    <h6>Average rating: @product.TotalRating / 5</h6>
+                }
+            }
+            <h1>All Products</h1>
             @if (Model.Products != null)
             {
                 foreach (var product in Model.Products)
@@ -19,6 +36,19 @@
                             <strong>RSD @product.Price</strong>
                             <strong>@(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
                         </div>
+                        @if (productIds.Contains(product.Id))
+                        {
+                            var isRated = ratingIds.Contains(product.Id);
+                            var className = isRated ? "disabled" : "";
+                            <button type="button" class="btn btn-info @className" data-bs-toggle="modal" data-bs-target="#ratingPopup-@product.Id">
+                                Rate
+                            </button>
+                            if (!isRated)
+                            {
+                                @await Html.PartialAsync("_RatingPopup", new RatingViewModel { ProductId = @product.Id })
+                            }
+                        }
+
                     </div>
                 }
             }

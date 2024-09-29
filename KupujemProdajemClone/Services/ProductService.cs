@@ -82,4 +82,14 @@ public class ProductService(KupujemProdajemCloneContext context, IAuthService au
 
         await context.SaveChangesAsync();
     }
+
+    public async Task<IReadOnlyCollection<Product>> GetProductsByUserAsync(int userId)
+    {
+        return await context.Products.Include(x => x.Ratings).Where(x => x.UserId == userId).ToListAsync();
+    }
+
+    public async Task<IReadOnlyCollection<Rating>> GetProductRatingByUserAsync(int userId)
+    {
+        return await context.Ratings.Where(x => x.UserId == userId).ToListAsync();
+    }
 }

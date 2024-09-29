@@ -22,7 +22,7 @@ public class DbInitializer
                 FirstName = "John1",
                 LastName = "Doe1",
                 Username = "john1",
-                PasswordHash = Crypto.CalculateSha256Hash("password1"),
+                PasswordHash = Crypto.CalculateSha256Hash("asdqwe123"),
             },
             new()
             {

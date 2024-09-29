@@ -12,4 +12,6 @@ public interface IProductService
     Task UpdateProductAsync(int id, ProductViewModel model);
     Task DeleteProductAsync(int productId, int userId);
     Task RateProductAsync(int productId, int userId, int rating);
+    Task<IReadOnlyCollection<Product>> GetProductsByUserAsync(int userId);
+    Task<IReadOnlyCollection<Rating>> GetProductRatingByUserAsync(int userId);
 }

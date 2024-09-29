@@ -1,0 +1,30 @@
+﻿@model KupujemProdajemClone.Models.ViewModels.RatingViewModel
+
+<div class="modal fade" id="ratingPopup-@Model.ProductId" tabindex="-1" role="dialog" aria-labelledby="ratingPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ratingPopupLabel">Rate the product</h5>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">X</button>
+            </div>
+            <div class="modal-body">
+                Select a rating from 1 to 5
+            </div>
+            <div class="modal-footer">
+                <form action='@Url.Action("Rate", "Product")' method="post">
+                    @Html.AntiForgeryToken()
+                    <select class="form-control" asp-for="RatingValue">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <input type="hidden" name="id" value="@Model.ProductId" />
+                    <button type="submit" class="btn btn-info">Rate</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

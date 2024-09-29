@@ -84,14 +84,14 @@ public class ProductController(IProductService productService, IAuthService auth
         }
     }
 
-    [HttpPost("rate/{id}")]
+    [HttpPost]
     public async Task<IActionResult> Rate(int id, int ratingValue)
     {
         try
         {
-            //get user id
-            await productService.RateProductAsync(id, 1, ratingValue);
-            return NoContent();
+            int userId = authService.GetUserId(User.Identity);
+            await productService.RateProductAsync(id, userId, ratingValue);
+            return RedirectToAction("Index", "Home");
         }
         catch (ProductNotFoundException e)
         {
