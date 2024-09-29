@@ -12,7 +12,7 @@ public class UserService(KupujemProdajemCloneContext context) : IUserService
 {
     public async Task<User?> GetUser(string username)
     {
-        return await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        return await context.Users.Include(x => x.SellingProducts).FirstOrDefaultAsync(u => u.Username == username);
     }
 
     public async Task<User> GetAuthenticatedUser(LoginViewModel loginViewModel)

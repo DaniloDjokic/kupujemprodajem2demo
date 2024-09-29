@@ -27,10 +27,12 @@
                 </ul>
                 <ul>
                     <li class="navbar-nav ms-auto">
-                        <div>Hi, @User.Identity?.Name&nbsp;&nbsp;</div>
-                        <form asp-controller="Users" asp-action="LogOut" asp-route-returnUrl="/" method="post">
-                            <button type="submit">Logout</button>
-                        </form>
+                        <div>Hi, @User.Identity?.Name</div>
+                        <div>
+                            <form asp-controller="Users" asp-action="LogOut" asp-route-returnUrl="/" method="post">
+                                <button type="submit" class="btn btn-danger">Logout</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
             </div>

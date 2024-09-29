@@ -6,4 +6,22 @@
 <div class="text-center">
     <h1>@ViewData["Title"]</h1>
     <h1>@Model.FullName</h1>
+    <h1>@Model.Username</h1>
+    <h1>@Model.Email</h1>
+    <a href='@Url.Action("NewProduct", "Product")' class="btn btn-info">Add New Product</a>
+    <div>
+        @foreach (var product in Model.Products)
+        {
+            <div id="productCard">
+                <img src="@product.ImageSrc" alt="">
+                <h5>@product.Name</h5>
+                <p>@product.Description</p>
+                <div>
+                    <strong>RSD @product.Price</strong>
+                    <strong>@(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
+                </div>
+                @* <button class="btn-warning">Edit</button> *@
+            </div>
+        }
+    </div>
 </div>

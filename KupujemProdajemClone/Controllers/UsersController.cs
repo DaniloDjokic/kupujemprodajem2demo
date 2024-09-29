@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KupujemProdajemClone.Controllers;
 
-public class UsersController(IUserService userService) : Controller
+public class UsersController(IUserService userService, IAuthService authService) : Controller
 {
     public async Task<IActionResult> Index()
     {
@@ -20,14 +20,14 @@ public class UsersController(IUserService userService) : Controller
             return Unauthorized();
         }
 
-        var model = new UserViewModel(user);
+        var model = UserViewModel.FromUser(user);
         return View(model);
     }
 
     [HttpGet]
     public IActionResult LogIn([FromQuery] string returnUrl)
     {
-        var model = new LoginViewModel() {ReturnUrl = returnUrl};
+        var model = new LoginViewModel() { ReturnUrl = returnUrl };
         return View(model);
     }
 
@@ -35,41 +35,31 @@ public class UsersController(IUserService userService) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogIn([FromForm] LoginViewModel credentials, [FromQuery] string returnUrl)
     {
+        credentials.ReturnUrl = returnUrl;
+        if (!ModelState.IsValid)
+        {
+            return View(credentials);
+        }
+
         try
         {
-            var user = await userService.GetAuthenticatedUser(credentials);
-
-            var claims = new List<Claim>()
-            {
-                new(ClaimTypes.Name, user.Username),
-                new("Id", user.Id.ToString()),
-                new("Username", user.Username)
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var props = new AuthenticationProperties
-            {
-                AllowRefresh = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = true,
-                IssuedUtc = DateTimeOffset.UtcNow,
-                RedirectUri = returnUrl
-            };
+            var props = await authService.CreateLoginProperties(credentials, returnUrl);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity), props);
+                props.Item1, props.Item2);
 
             return Redirect(returnUrl);
         }
         catch (UserNotFoundException e)
         {
-            return NotFound(e.Message);
+            ModelState.AddModelError(nameof(credentials.AreCredentialsValid), e.Message);
         }
         catch (UnauthorizedAccessException e)
         {
-            return Forbid(e.Message);
+            ModelState.AddModelError(nameof(credentials.AreCredentialsValid), e.Message);
         }
+
+        return View(credentials);
     }
 
     [HttpPost]

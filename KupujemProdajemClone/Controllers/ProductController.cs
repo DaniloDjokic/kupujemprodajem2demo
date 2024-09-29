@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using KupujemProdajemClone.Exceptions;
 using KupujemProdajemClone.Models;
 using KupujemProdajemClone.Models.ViewModels;
@@ -7,11 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KupujemProdajemClone.Controllers;
 
-public class ProductController(IProductService productService) : Controller
+public class ProductController(IProductService productService, IAuthService authService) : Controller
 {
-    [HttpPost]
-    public async Task<IActionResult> AddNewProduct(ProductViewModel model)
+    [HttpGet]
+    public IActionResult NewProduct()
     {
+        var model = new ProductViewModel();
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> New(ProductViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("NewProduct", model);
+        }
+
         try
         {
             //save image file then set the path
@@ -19,12 +33,12 @@ public class ProductController(IProductService productService) : Controller
             {
                 Name = model.Name,
                 Description = model.Description,
-                // UserId = this.Cookie.UserId,
+                UserId = authService.GetUserId(User.Identity),
                 Price = model.Price
             };
 
             await productService.CreateProductAsync(product);
-            return CreatedAtAction(nameof(AddNewProduct), model);
+            return RedirectToAction("Index", "Users");
         }
         catch (ValidationException e)
         {
@@ -33,7 +47,7 @@ public class ProductController(IProductService productService) : Controller
     }
 
     [HttpPut("/{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, ProductViewModel model)
+    public async Task<IActionResult> Update(int id, ProductViewModel model)
     {
         try
         {
@@ -59,7 +73,7 @@ public class ProductController(IProductService productService) : Controller
     }
 
     [HttpDelete("/{id}")]
-    public async Task<IActionResult> DeleteProduct(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
@@ -78,7 +92,7 @@ public class ProductController(IProductService productService) : Controller
     }
 
     [HttpPost("rate/{id}")]
-    public async Task<IActionResult> RateProduct(int id, int ratingValue)
+    public async Task<IActionResult> Rate(int id, int ratingValue)
     {
         try
         {
