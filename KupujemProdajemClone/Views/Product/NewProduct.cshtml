@@ -6,7 +6,7 @@
             New Product
         </h1>
 
-        <form method="post" asp-controller="Product" asp-action="New" class="g-3 m-3">
+        <form enctype="multipart/form-data" method="post" asp-controller="Product" asp-action="New" class="g-3 m-3">
             <div class="form-group m-2">
                 <input id="name" asp-for=@Model.Name class="form-control rounded-end" placeholder="Name"/>
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
@@ -22,11 +22,10 @@
                 <span asp-validation-for="@Model.Price" class="text-danger"></span>
             </div>
 
-            @*Img here*@
-            @* <div class="form-group m-2"> *@
-            @*     <input id="price" asp-for=@Model.Price class="form-control rounded-end" placeholder="Price"/> *@
-            @*     <span asp-validation-for="@Model.Price" class="text-danger"></span> *@
-            @* </div> *@
+            <div class="form-group m-2">
+                <input id="image" asp-for="@Model.ImageData" class="form-control rounded-end" type="file"/>
+                <span asp-validation-for="@Model.ImageData" class="text-danger"></span>
+            </div>
 
             <div class="m-2">
                 <button type="submit" class="btn btn-success">Create</button>

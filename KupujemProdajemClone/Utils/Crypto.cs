@@ -14,4 +14,14 @@ public class Crypto
 
         return BitConverter.ToString(hash).Replace("-", string.Empty);
     }
+
+    public static string CalculateMd5Hash(string input)
+    {
+        using var md5Hash = MD5.Create();
+
+        byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+        byte[] hash = md5Hash.ComputeHash(inputBytes);
+
+        return BitConverter.ToString(hash).Replace("-", string.Empty);
+    }
 }

@@ -3,6 +3,7 @@ using KupujemProdajemClone.DataLayer;
 using KupujemProdajemClone.Exceptions;
 using KupujemProdajemClone.Models;
 using KupujemProdajemClone.Models.ViewModels;
+using KupujemProdajemClone.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace KupujemProdajemClone.Services;
@@ -19,21 +20,37 @@ public class ProductService(KupujemProdajemCloneContext context, IAuthService au
         return await context.Products.Include(x => x.Ratings).FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task CreateProductAsync(IIdentity identity, ProductViewModel model)
+    public async Task CreateProductAsync(IIdentity? identity, ProductViewModel model)
     {
-        //try save image
+        string imageSource = await SaveImage(model.ImageData);
 
         var product = new Product
         {
             Name = model.Name,
             Description = model.Description,
             UserId = authService.GetUserId(identity),
-            Price = model.Price
+            Price = model.Price,
+            ImageSrc = imageSource,
         };
 
         await context.Products.AddAsync(product);
 
         await context.SaveChangesAsync();
+    }
+
+    private async Task<string> SaveImage(IFormFile? imageData)
+    {
+        if (imageData is null) return string.Empty;
+
+        var imgNameHash = Crypto.CalculateMd5Hash(imageData.FileName);
+        var fileExtension = Path.GetExtension(imageData.FileName);
+
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\imgs", $"{imgNameHash}{fileExtension}");
+        await using var fileStream = new FileStream(filePath, FileMode.Create);
+        await imageData.CopyToAsync(fileStream);
+
+        return $"/imgs/{imgNameHash}{fileExtension}";
+
     }
 
     public async Task UpdateProductAsync(int id, ProductViewModel model)
@@ -43,12 +60,12 @@ public class ProductService(KupujemProdajemCloneContext context, IAuthService au
         if (oldProduct == null)
             throw new ProductNotFoundException($"Product {id} not found");
 
-        //try save image
+        string imageSource = await SaveImage(model.ImageData);
 
         oldProduct.Name = model.Name;
         oldProduct.Price = model.Price;
         oldProduct.Description = model.Description;
-        oldProduct.ImageSrc = model.ImageSrc;
+        oldProduct.ImageSrc = imageSource;
 
         await context.SaveChangesAsync();
     }

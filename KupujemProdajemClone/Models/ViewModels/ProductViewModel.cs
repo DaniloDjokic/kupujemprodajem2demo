@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using KupujemProdajemClone.Attributes;
 
 namespace KupujemProdajemClone.Models.ViewModels;
 
@@ -16,7 +17,11 @@ public class ProductViewModel
     public decimal Price { get; set; }
 
     public string ImageName { get; set; } = string.Empty;
-    public byte[] ImagesData { get; set; } = [];
+
+    [MaxFileSize(10 * 1024 * 1024)]
+    [AllowedExtensions(".jpg", ".jpeg", ".png", ".webp")]
+    public IFormFile? ImageData { get; set; }
+
     public string ImageSrc { get; set; } = string.Empty;
     public double TotalRating { get; set; }
 
