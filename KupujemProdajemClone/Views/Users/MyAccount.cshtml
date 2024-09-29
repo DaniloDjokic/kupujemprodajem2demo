@@ -20,6 +20,7 @@
                     <strong>RSD @product.Price</strong>
                     <strong>@(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
                 </div>
+                <a href='@Url.Action("UpdateProduct", "Product", new {id = product.Id})' class="btn btn-info">Update</a>
                 @* <button class="btn-warning">Edit</button> *@
             </div>
         }

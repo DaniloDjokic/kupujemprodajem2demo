@@ -26,45 +26,38 @@ public class ProductController(IProductService productService, IAuthService auth
             return View("NewProduct", model);
         }
 
-        try
-        {
-            //save image file then set the path
-            var product = new Product
-            {
-                Name = model.Name,
-                Description = model.Description,
-                UserId = authService.GetUserId(User.Identity),
-                Price = model.Price
-            };
-
-            await productService.CreateProductAsync(product);
-            return RedirectToAction("Index", "Users");
-        }
-        catch (ValidationException e)
-        {
-            return BadRequest(e.Message);
-        }
+        await productService.CreateProductAsync(User.Identity, model);
+        return RedirectToAction("MyAccount", "Users");
     }
 
-    [HttpPut("/{id}")]
-    public async Task<IActionResult> Update(int id, ProductViewModel model)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> UpdateProduct(int id)
     {
+        var product = await productService.GetProductByIdAsync(id);
+
+        if (product == null)
+        {
+            return new NotFoundResult();
+        }
+
+        var model = ProductViewModel.FromProduct(product);
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(int id, [FromForm]ProductViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("UpdateProduct", model);
+        }
+
         try
         {
-            var product = new Product
-            {
-                Name = model.Name,
-                Description = model.Description,
-                Price = model.Price,
-            };
+            await productService.UpdateProductAsync(id, model);
 
-            await productService.UpdateProductAsync(id, product);
-
-            return NoContent();
-        }
-        catch (ValidationException e)
-        {
-            return BadRequest(e.Message);
+            return RedirectToAction("MyAccount", "Users");
         }
         catch (ProductNotFoundException e)
         {

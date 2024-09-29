@@ -1,11 +1,13 @@
-﻿using KupujemProdajemClone.DataLayer;
+﻿using System.Security.Principal;
+using KupujemProdajemClone.DataLayer;
 using KupujemProdajemClone.Exceptions;
 using KupujemProdajemClone.Models;
+using KupujemProdajemClone.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace KupujemProdajemClone.Services;
 
-public class ProductService(KupujemProdajemCloneContext context) : IProductService
+public class ProductService(KupujemProdajemCloneContext context, IAuthService authService) : IProductService
 {
     public async Task<IReadOnlyCollection<Product>> GetProductsAsync()
     {
@@ -17,15 +19,24 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
         return await context.Products.Include(x => x.Ratings).FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task CreateProductAsync(Product product)
+    public async Task CreateProductAsync(IIdentity identity, ProductViewModel model)
     {
         //try save image
+
+        var product = new Product
+        {
+            Name = model.Name,
+            Description = model.Description,
+            UserId = authService.GetUserId(identity),
+            Price = model.Price
+        };
+
         await context.Products.AddAsync(product);
 
         await context.SaveChangesAsync();
     }
 
-    public async Task UpdateProductAsync(int id, Product product)
+    public async Task UpdateProductAsync(int id, ProductViewModel model)
     {
         var oldProduct = await GetProductByIdAsync(id);
 
@@ -34,10 +45,10 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
 
         //try save image
 
-        oldProduct.Name = product.Name;
-        oldProduct.Price = product.Price;
-        oldProduct.Description = product.Description;
-        oldProduct.ImageSrc = product.ImageSrc;
+        oldProduct.Name = model.Name;
+        oldProduct.Price = model.Price;
+        oldProduct.Description = model.Description;
+        oldProduct.ImageSrc = model.ImageSrc;
 
         await context.SaveChangesAsync();
     }
@@ -67,7 +78,7 @@ public class ProductService(KupujemProdajemCloneContext context) : IProductServi
         if (product.Ratings.Any(x => x.UserId == userId))
             throw new InvalidRatingException($"User {userId} rating already exists");
 
-        product.Ratings.Add(new Rating{UserId = userId, RatingValue = rating});
+        product.Ratings.Add(new Rating { UserId = userId, RatingValue = rating });
 
         await context.SaveChangesAsync();
     }

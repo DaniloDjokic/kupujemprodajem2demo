@@ -1,0 +1,36 @@
+﻿@model KupujemProdajemClone.Models.ViewModels.ProductViewModel
+
+<div class="col-12 vh-100">
+    <div id="login" class="container-fluid justify-content-center align-items-center p-3">
+        <h1 class="text-center m-3">
+            Update product
+        </h1>
+
+        <form method="post" asp-controller="Product" asp-action="Update" asp-route-id="@Model.Id" class="g-3 m-3">
+            <div class="form-group m-2">
+                <input id="name" asp-for=@Model.Name class="form-control rounded-end" placeholder="@Model.Name"/>
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group m-2">
+                <textarea id="description" asp-for=@Model.Description class="form-control rounded-end" placeholder="@Model.Description" rows="5"></textarea>
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group m-2">
+                <input id="price" asp-for=@Model.Price class="form-control rounded-end" placeholder="@Model.Price"/>
+                <span asp-validation-for="@Model.Price" class="text-danger"></span>
+            </div>
+
+            @*Img here*@
+            @* <div class="form-group m-2"> *@
+            @*     <input id="price" asp-for=@Model.Price class="form-control rounded-end" placeholder="Price"/> *@
+            @*     <span asp-validation-for="@Model.Price" class="text-danger"></span> *@
+            @* </div> *@
+
+            <div class="m-2">
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

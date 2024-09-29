@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using KupujemProdajemClone.Exceptions;
+﻿using KupujemProdajemClone.Exceptions;
 using KupujemProdajemClone.Models;
 using KupujemProdajemClone.Models.ViewModels;
 using KupujemProdajemClone.Services;
@@ -11,7 +10,7 @@ namespace KupujemProdajemClone.Controllers;
 
 public class UsersController(IUserService userService, IAuthService authService) : Controller
 {
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> MyAccount()
     {
         var user = await userService.GetUser(HttpContext.User.Identity?.Name ?? string.Empty);
 
