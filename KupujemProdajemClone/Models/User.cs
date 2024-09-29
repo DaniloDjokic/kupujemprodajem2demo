@@ -16,6 +16,8 @@ public class User
 
     [MaxLength(100)] public string Email { get; set; } = string.Empty;
 
+    [MaxLength(2000)] public string PasswordHash { get; set; } = string.Empty;
+
     public ICollection<Product> SellingProducts { get; set; } = [];
     public ICollection<Rating> Ratings { get; set; } = [];
 }

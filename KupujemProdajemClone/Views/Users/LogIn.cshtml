@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+
+<div class="col-12 vh-100">
+
+    <div id="login" class="container-fluid justify-content-center align-items-center p-3">
+        <h1 class="text-center m-3">
+            Welcome to KP-2
+            @* <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle"/> *@
+        </h1>
+
+        <form method="post" asp-controller="Users" asp-action="LogIn" asp-route-returnUrl="@Model.ReturnUrl" class="g-3 m-3">
+            <div id="loginValidation" class="text-danger fw-bold"></div>
+
+            <div class="input-group m-2">
+                <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                </span>
+                <input id="username" asp-for=Username class="form-control rounded-end" placeholder="Username"/>
+            </div>
+
+            <div class="input-group m-2">
+                <span class="input-group-text">
+                    <i class="fa fa-key"></i>
+                </span>
+                <input id="password" asp-for=Password class="form-control rounded-end" placeholder="Password" type="password"/>
+            </div>
+
+            <div class="m-2">
+                <button type="submit" value="Login" class="btn btn-success">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

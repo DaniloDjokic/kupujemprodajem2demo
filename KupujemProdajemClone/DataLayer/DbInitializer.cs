@@ -1,5 +1,7 @@
-﻿using KupujemProdajemClone.Models;
-using KupujemProdajemClone.Models.ViewModels;
+﻿using System.Security.Cryptography;
+using System.Text;
+using KupujemProdajemClone.Models;
+using KupujemProdajemClone.Utils;
 
 namespace KupujemProdajemClone.DataLayer;
 
@@ -19,21 +21,24 @@ public class DbInitializer
                 Email = "test1@gmail.com",
                 FirstName = "John1",
                 LastName = "Doe1",
-                Username = "john1"
+                Username = "john1",
+                PasswordHash = Crypto.CalculateSha256Hash("password1"),
             },
             new()
             {
                 Email = "test2@gmail.com",
                 FirstName = "John2",
                 LastName = "Doe2",
-                Username = "john2"
+                Username = "john2",
+                PasswordHash = Crypto.CalculateSha256Hash("password2"),
             },
             new()
             {
                 Email = "test3@gmail.com",
-                FirstName = "John2",
+                FirstName = "John3",
                 LastName = "Doe3",
-                Username = "john3"
+                Username = "john3",
+                PasswordHash = Crypto.CalculateSha256Hash("password3"),
             },
         };
 

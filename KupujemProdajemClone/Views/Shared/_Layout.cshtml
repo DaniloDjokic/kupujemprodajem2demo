@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - KupujemProdajemClone</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/KupujemProdajemClone.styles.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
@@ -24,6 +23,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">My Account</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="navbar-nav ms-auto">
+                        <div>Hi, @User.Identity?.Name&nbsp;&nbsp;</div>
+                        <form asp-controller="Users" asp-action="LogOut" asp-route-returnUrl="/" method="post">
+                            <button type="submit">Logout</button>
+                        </form>
                     </li>
                 </ul>
             </div>

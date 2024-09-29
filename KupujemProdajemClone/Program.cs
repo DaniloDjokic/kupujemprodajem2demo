@@ -1,5 +1,7 @@
 using KupujemProdajemClone.DataLayer;
+using KupujemProdajemClone.Middleware;
 using KupujemProdajemClone.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<KupujemProdajemCloneContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("KupujemProdajemCloneContext")));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/Forbidden/";
+    });
+
+
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -38,6 +50,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
+
+app.UseAuthenticationMiddleware();
 
 app.MapControllerRoute(
     name: "default",

@@ -4,5 +4,6 @@ namespace KupujemProdajemClone.Services;
 
 public interface IUserService
 {
-    User GetUser();
+    Task<User?> GetUser(string username);
+    Task<User> GetAuthenticatedUser(LoginViewModel loginViewModel);
 }
