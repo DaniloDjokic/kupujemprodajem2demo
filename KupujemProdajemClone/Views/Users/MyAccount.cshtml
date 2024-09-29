@@ -20,9 +20,12 @@
                     <strong>RSD @product.Price</strong>
                     <strong>@(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
                 </div>
-                <a href='@Url.Action("UpdateProduct", "Product", new {id = product.Id})' class="btn btn-info">Update</a>
-                @* <button class="btn-warning">Edit</button> *@
+                <a href='@Url.Action("UpdateProduct", "Product", new { id = product.Id })' class="btn btn-info">Update</a>
             </div>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmPopup-@product.Id">
+                Delete
+            </button>
+            @await Html.PartialAsync("_ConfirmPopup", product)
         }
     </div>
 </div>

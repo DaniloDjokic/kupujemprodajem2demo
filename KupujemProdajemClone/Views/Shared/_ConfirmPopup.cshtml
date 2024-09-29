@@ -1,0 +1,21 @@
+﻿@model KupujemProdajemClone.Models.ViewModels.ProductViewModel
+<div class="modal fade" id="confirmPopup-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="confirmPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmPopupLabel">Are you sure ?</h5>
+            </div>
+            <div class="modal-body">
+                Deleting product @Model.Name
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form action='@Url.Action("Delete", "Product")' method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

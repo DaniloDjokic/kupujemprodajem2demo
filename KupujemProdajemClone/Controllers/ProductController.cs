@@ -65,14 +65,14 @@ public class ProductController(IProductService productService, IAuthService auth
         }
     }
 
-    [HttpDelete("/{id}")]
+    [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         try
         {
-            //get userId from cookie
-            await productService.DeleteProductAsync(id, 1);
-            return NoContent();
+            int userId = authService.GetUserId(User.Identity);
+            await productService.DeleteProductAsync(id, userId);
+            return RedirectToAction("MyAccount", "Users");
         }
         catch (ProductNotFoundException e)
         {
