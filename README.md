@@ -6,10 +6,21 @@
 
 ## Kloniranje repozitorijuma:
 
+Kako bi se repozitorijum klonirao potrebno je imati git instaliran. Git se moze skinuti sa [ovog linka](https://git-scm.com/downloads/win)
+
+Tokom instalacije gita, ostaviti sve opcije na svoja defaultna podesavanja. Nakon sto je git instaliran, desnim klikom u folderu pojavice se sledece opcije
+
+![Otvaranje bash-a](https://github.com/user-attachments/assets/09b19252-7bd7-4e1d-a4fc-2be671ceabbc)
+
+Klikom na opciju "Git Bash Here" otvorice se sledeca konzola
+
+![gitbash](https://github.com/user-attachments/assets/0b447c90-f0e6-4a58-8891-67463228bc73)
+
+Vratiti se na Github stranicu repozitorijuma i preuzeti njegovu adresu
 
 ![Kloniranje](https://github.com/user-attachments/assets/3f2f2970-0259-42c2-a3b0-06a5347d46b4)
 
-Sa date se dobija adresa repozitorijuma. Uz pomoc date adrese pokrenuti sledecu komandu u zeljenom folderu
+Nakon kopiranja adrese u konzoli uneti komandu ```git clone``` sa datom adresom. Izgleda ovako:
 
 ```
 git clone https://github.com/DaniloDjokic/kupujemprodajem2demo.git
