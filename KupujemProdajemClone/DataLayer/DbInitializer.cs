@@ -52,7 +52,7 @@ public class DbInitializer
                 Name = "Test Name1",
                 Description = "Test Description1",
                 Price = 1000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock1.jpg",
                 UserId = users[0].Id,
             },
             new()
@@ -60,7 +60,7 @@ public class DbInitializer
                 Name = "Test Name2",
                 Description = "Test Description2",
                 Price = 11000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock3.jpg",
                 UserId = users[1].Id,
             },
             new()
@@ -68,7 +68,7 @@ public class DbInitializer
                 Name = "Test Name3",
                 Description = "Test Description3",
                 Price = 110.83m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock3.jpg",
                 UserId = users[2].Id,
             },
             new()
@@ -76,7 +76,7 @@ public class DbInitializer
                 Name = "Test Name4",
                 Description = "Test Description4",
                 Price = 10001.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock3.jpg",
                 UserId = users[0].Id,
             },
             new()
@@ -84,7 +84,7 @@ public class DbInitializer
                 Name = "Test Name5",
                 Description = "Test Description5",
                 Price = 3420.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock1.jpg",
                 UserId = users[1].Id
             },
             new()
@@ -92,7 +92,7 @@ public class DbInitializer
                 Name = "Test Name6",
                 Description = "Test Description6",
                 Price = 11000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock3.jpg",
                 UserId = users[2].Id,
             },
             new()
@@ -100,7 +100,7 @@ public class DbInitializer
                 Name = "Test Name7",
                 Description = "Test Description7",
                 Price = 1000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock1.jpg",
                 UserId = users[0].Id,
             },
             new()
@@ -108,7 +108,7 @@ public class DbInitializer
                 Name = "Test Name8",
                 Description = "Test Description8",
                 Price = 11000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock3.jpg",
                 UserId = users[1].Id,
             },
             new()
@@ -116,7 +116,7 @@ public class DbInitializer
                 Name = "Test Name9",
                 Description = "Test Description9",
                 Price = 110.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock1.jpg",
                 UserId = users[2].Id,
             },
             new()
@@ -124,7 +124,7 @@ public class DbInitializer
                 Name = "Test Name10",
                 Description = "Test Description10",
                 Price = 1000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock3.jpg",
                 UserId = users[0].Id,
             },
             new()
@@ -132,7 +132,7 @@ public class DbInitializer
                 Name = "Test Name11",
                 Description = "Test Description11",
                 Price = 11000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock1.jpg",
                 UserId = users[1].Id,
             },
             new()
@@ -140,7 +140,7 @@ public class DbInitializer
                 Name = "Test Name12",
                 Description = "Test Description12",
                 Price = 11000.10m,
-                ImageSrc = "/imgs/stock.jpg",
+                ImageSrc = "/imgs/stock1.jpg",
                 UserId = users[2].Id,
             },
         };

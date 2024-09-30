@@ -3,29 +3,42 @@
     ViewData["Title"] = "My Account";
 }
 
-<div class="text-center">
-    <h1>@ViewData["Title"]</h1>
-    <h1>@Model.FullName</h1>
-    <h1>@Model.Username</h1>
-    <h1>@Model.Email</h1>
-    <a href='@Url.Action("NewProduct", "Product")' class="btn btn-info">Add New Product</a>
-    <div>
-        @foreach (var product in Model.Products)
-        {
-            <div id="productCard">
-                <img src="@product.ImageSrc" alt="">
-                <h5>@product.Name</h5>
-                <p>@product.Description</p>
-                <div>
-                    <strong>RSD @product.Price</strong>
-                    <strong>@(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <h1>@ViewData["Title"]</h1>
+            <div class="fs-1">Full Name: <strong>@Model.FullName</strong></div>
+            <div class="fs-1">Username: <strong>@Model.Username</strong></div>
+            <div class="fs-1">Email: <strong>@Model.Email</strong></div>
+            <a href='@Url.Action("NewProduct", "Product")' class="btn btn-info mt-5 text-center text-black btn-lg">Add New Product</a>
+        </div>
+        <div class="col-6">
+            <h1 class="text-center mb-3">My Products</h1>
+            <div class="container">
+                <div class="row row-cols-2 g-3">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col">
+                            <div class="product-card">
+                                <img src="@product.ImageSrc" alt="">
+                                <h5 class="mt-1 fw-bold">@product.Name</h5>
+                                <p>@product.Description</p>
+                                <div>
+                                    <strong class="fs-3 d-block">RSD @product.Price</strong>
+                                    <strong class="fs-3 d-block">Rating: @(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
+                                </div>
+                                <div class="mt-2 d-flex flex-row justify-content-evenly">
+                                    <a href='@Url.Action("UpdateProduct", "Product", new { id = product.Id })' class="btn btn-success">Update</a>
+                                    <button type="button" class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#confirmPopup-@product.Id">
+                                        Delete
+                                    </button>
+                                </div>
+                                @await Html.PartialAsync("_ConfirmPopup", product)
+                            </div>
+                        </div>
+                    }
                 </div>
-                <a href='@Url.Action("UpdateProduct", "Product", new { id = product.Id })' class="btn btn-info">Update</a>
             </div>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmPopup-@product.Id">
-                Delete
-            </button>
-            @await Html.PartialAsync("_ConfirmPopup", product)
-        }
+        </div>
     </div>
 </div>

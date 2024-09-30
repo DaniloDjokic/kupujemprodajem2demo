@@ -20,3 +20,26 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.rating-card {
+  border-radius: 10px;
+  border-width: 1px;
+  border-style: solid;
+  margin: 1rem;
+  box-shadow: #2c3034 1px 1px 1px;
+  width: fit-content;
+  height: auto;
+  padding: 1rem;
+}
+
+.product-card {
+  border-radius: 10px;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: #2c3034 2px 2px 2px;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+}

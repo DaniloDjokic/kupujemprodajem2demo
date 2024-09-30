@@ -13,15 +13,17 @@
             <div class="modal-footer">
                 <form action='@Url.Action("Rate", "Product")' method="post">
                     @Html.AntiForgeryToken()
-                    <select class="form-control" asp-for="RatingValue">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <input type="hidden" name="id" value="@Model.ProductId" />
-                    <button type="submit" class="btn btn-info">Rate</button>
+                    <div class="d-flex flex-row align-content-center">
+                        <select class="form-select me-2" asp-for="RatingValue">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <input type="hidden" name="id" value="@Model.ProductId" />
+                        <button type="submit" class="btn btn-success">Rate</button>
+                    </div>
                 </form>
             </div>
         </div>

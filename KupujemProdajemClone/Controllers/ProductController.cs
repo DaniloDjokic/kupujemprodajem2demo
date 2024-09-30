@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using KupujemProdajemClone.Exceptions;
-using KupujemProdajemClone.Models;
+﻿using KupujemProdajemClone.Exceptions;
 using KupujemProdajemClone.Models.ViewModels;
 using KupujemProdajemClone.Services;
 using Microsoft.AspNetCore.Mvc;

@@ -5,53 +5,68 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Kupujem Prodajem 2</h1>
+    <h1 class="display-4 fw-bold">Kupujem Prodajem 2</h1>
     <section id="mainSection">
-        <div>
+        <div class="d-flex flex-column">
             @{
-                var productIds = Model.UserProducts.Select(x => x.Id).ToList();
+                var userProductIds = Model.UserProducts.Select(x => x.Id).ToList();
                 var ratingIds = Model.ProductRatings.Select(x => x.ProductId).ToList();
             }
-            <h1>Your Ratings</h1>
-            @foreach (var rating in Model.ProductRatings)
-            {
-                var product = Model.Products?.FirstOrDefault(x => x.Id == rating.ProductId);
-                if (product != null)
-                {
-                    <h5>@product.Name</h5>
-                    <h6>You rated: @rating.RatingValue</h6>
-                    <h6>Average rating: @product.TotalRating / 5</h6>
-                }
-            }
-            <h1>All Products</h1>
-            @if (Model.Products != null)
-            {
-                foreach (var product in Model.Products)
-                {
-                    <div id="productCard">
-                        <img src="@product.ImageSrc" alt="">
-                        <h5>@product.Name</h5>
-                        <p>@product.Description</p>
-                        <div>
-                            <strong>RSD @product.Price</strong>
-                            <strong>@(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
-                        </div>
-                        @if (productIds.Contains(product.Id))
-                        {
-                            var isRated = ratingIds.Contains(product.Id);
-                            var className = isRated ? "disabled" : "";
-                            <button type="button" class="btn btn-info @className" data-bs-toggle="modal" data-bs-target="#ratingPopup-@product.Id">
-                                Rate
-                            </button>
-                            if (!isRated)
-                            {
-                                @await Html.PartialAsync("_RatingPopup", new RatingViewModel { ProductId = @product.Id })
+            <div class="d-flex flex-row justify-content-evenly align-items-center mt-4">
+                <h1>Your Ratings: </h1>
+                <div class="d-flex flex-row">
+                    @foreach (var rating in Model.ProductRatings)
+                    {
+                        <div class="rating-card">
+                            @{
+                                var product = Model.Products?.FirstOrDefault(x => x.Id == rating.ProductId);
+                                if (product != null)
+                                {
+                                    <h5>Product Name: @product.Name</h5>
+                                    <h5>You rated: @rating.RatingValue</h5>
+                                    <h5>Average rating: @product.TotalRating.ToString("##.###") / 5</h5>
+                                }
                             }
-                        }
-
-                    </div>
-                }
-            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div>
+                <h1 class="mt-5">All Products</h1>
+                <div class="container">
+                    @if (Model.Products != null)
+                    {
+                        <div class="row row-cols-3 g-4">
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="col">
+                                    <div class="product-card">
+                                        <img src="@product.ImageSrc" alt="">
+                                        <h5 class="mt-1 fw-bold">@product.Name</h5>
+                                        <p>@product.Description</p>
+                                        <div>
+                                            <strong class="fs-3 d-block">RSD @product.Price</strong>
+                                            <strong class="fs-3 d-block">Rating: @(product.TotalRating != 0 ? $"{product.TotalRating} / 5" : "Not Rated")</strong>
+                                        </div>
+                                        @if (!userProductIds.Contains(product.Id))
+                                        {
+                                            var isRated = ratingIds.Contains(product.Id);
+                                            var className = isRated ? "disabled" : "";
+                                            <button type="button" class="mt-2 text-center mx-auto w-50 btn btn-info @className" data-bs-toggle="modal" data-bs-target="#ratingPopup-@product.Id">
+                                                Rate
+                                            </button>
+                                            if (!isRated)
+                                            {
+                                                @await Html.PartialAsync("_RatingPopup", new RatingViewModel { ProductId = @product.Id })
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </section>
 </div>
